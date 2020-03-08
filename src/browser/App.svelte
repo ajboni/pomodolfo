@@ -27,9 +27,9 @@
   }
 </style>
 
-<main>
+<main class="has-background-dark">
   {#if $page === 'main'}
-    <section class="hero is-dark is-fullheight">
+    <section out:fade class="hero is-dark is-fullheight">
       <div class="hero-body ">
         <div class="columns is-vcentered has-text-centered ">
           <div class="column is-centered ">
@@ -97,7 +97,9 @@
       </div>
     </section>
   {:else}
-    <About />
+    <div transition:fade={{ delay: 800 }}>
+      <About />
+    </div>
   {/if}
 
   <!-- 
