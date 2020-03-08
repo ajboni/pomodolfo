@@ -1,0 +1,7 @@
+// Any customization should be done here.
+// https://bulma.io/documentation/customize/variables/
+
+$primary: #333;
+
+// Then import bulma (Should be replaced for the used componentes only. Using all for dev purposes)
+@import "../../node_modules/bulma/bulma"

@@ -1,0 +1,39 @@
+{
+	"name": "svelte-app-electron",
+	"description": "svelte-app-electron",
+	"version": "0.1.0",
+	"main": "src/electron/electron.js",
+	"author": "ajboni <mail@aboni.dev>",
+	"scripts": {
+		"build": "rollup -c && electron-builder",
+		"dev": "cross-env WATCH=both rollup -c -w",
+		"dev-renderer": "cross-env WATCH=renderer rollup -c -w",
+		"dev-electron": "npm run start-nodemon",
+		"start": "cross-env NODE_ENV=development electron src/electron/electron",
+		"start-nomon": "cross-env NODE_ENV=development electron src/electron/electron",
+		"start-nodemon": "cross-env NODE_ENV=development nodemon --watch ./src/electron --exec 'electron ./src/electron/electron'"
+	},
+	"build": {
+		"appId": "com.example.app"
+	},
+	"devDependencies": {
+		"@rollup/plugin-commonjs": "^11.0.2",
+		"@rollup/plugin-node-resolve": "^7.1.1",
+		"electron": "^8.1.0",
+		"electron-builder": "^22.4.0",
+		"electron-reload": "^1.5.0",
+		"nodemon": "^2.0.2",
+		"rollup": "^2.0.2",
+		"rollup-plugin-livereload": "^1.0.4",
+		"rollup-plugin-sass": "^1.2.2",
+		"rollup-plugin-svelte": "^5.1.1",
+		"rollup-plugin-terser": "^5.2.0",
+		"svelte": "^3.19.2"
+	},
+	"dependencies": {
+		"@fortawesome/fontawesome-free": "^5.12.1",
+		"bulma": "^0.8.0",
+		"cross-env": "^7.0.2",
+		"sirv-cli": "^0.4.5"
+	}
+}
