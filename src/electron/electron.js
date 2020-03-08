@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu } = require('electron')
+const { app, BrowserWindow, Menu, Tray } = require('electron')
 const path = require('path')
 const { NODE_ENV } = process.env
 const dev = NODE_ENV === 'development'
@@ -15,8 +15,8 @@ if (dev) {
 function createWindow() {
 	// Create the browser window.
 	mainWindow = new BrowserWindow({
-		width: 800,
-		height: 600,
+		width: 500,
+		height: 550,
 		icon: path.join(__dirname, '..', '..', 'public', 'favicon.png'),
 		webPreferences: {
 			nodeIntegration: true
@@ -25,10 +25,22 @@ function createWindow() {
 
 	// and load the index.html of the app.
 	mainWindow.loadFile(path.join(__dirname, '../..', 'public', 'index.html'))
+	mainWindow.removeMenu()
 
-	if (dev) {
-		mainWindow.webContents.openDevTools()
-	}
+	// minimize
+	mainWindow.on('minimize', function (event) {
+		event.preventDefault();
+		mainWindow.hide();
+	});
+
+	mainWindow.on('close', function (event) {
+		if (!app.isQuiting) {
+			event.preventDefault();
+			mainWindow.hide();
+		}
+	});
+
+
 }
 
 
@@ -58,4 +70,42 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here. 
+
+
+const iconPath = path.join(__dirname, 'trayIcon.png');
+let tray = null;
+
+app.on('ready', () => {
+	tray = new Tray(iconPath)
+
+	const contextMenu = Menu.buildFromTemplate([
+		{
+			label: 'Open', type: 'normal', click: () => {
+				const mainWindow = BrowserWindow.fromId(1)
+				mainWindow.show();
+			}
+		},
+		{
+
+			label: 'About', type: 'normal', click: () => {
+				mainWindow.webContents.openDevTools()
+			}
+		},
+		{
+
+			label: 'Toggle Developer Tool', type: 'normal', click: () => {
+				mainWindow.webContents.openDevTools()
+			}
+		},
+		{ type: 'separator' },
+		{
+			label: 'Exit', type: 'normal', click: () => {
+				app.quit();
+			}
+		}
+	])
+
+	tray.setToolTip('This is my application.')
+	tray.setContextMenu(contextMenu)
+})
 

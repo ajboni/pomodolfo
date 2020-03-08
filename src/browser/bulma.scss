@@ -1,7 +1,25 @@
 // Any customization should be done here.
 // https://bulma.io/documentation/customize/variables/
 
-$primary: #333;
+/* RGB */
+$color1: #fbfef9;
+$color2:#181f1c;
+$color3: rgba(193, 41, 46, 1);
+$color4: rgba(241, 211, 2, 1);
+$color5: #11151c;
+$progress-bar-background-color: #181f1c;
+
+
+$primary: $color3;
+// $link: $blue;
+$info: $color2;
+// $success: $green;
+// $warning: $yellow;
+// $danger: $red;
+$dark: $color5;
+$text: $color1;
+$text-strong: $color1;
+$white: $color1;
 
 // Then import bulma (Should be replaced for the used componentes only. Using all for dev purposes)
 @import "../../node_modules/bulma/bulma"

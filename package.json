@@ -1,6 +1,6 @@
 {
-	"name": "svelte-app-electron",
-	"description": "svelte-app-electron",
+	"name": "pomodolfo",
+	"description": "Really simple multiplatform pomodoro timer for desktop. ",
 	"version": "0.1.0",
 	"main": "src/electron/electron.js",
 	"author": "ajboni <mail@aboni.dev>",
