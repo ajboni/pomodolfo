@@ -1,7 +1,20 @@
 <script>
   import { slide, fade, fly } from "svelte/transition";
   import { quintOut } from "svelte/easing";
-  import { activeMode, timer, page } from "./store";
+  import {
+    activeMode,
+    page,
+    status,
+    setMode,
+    startTimer,
+    pauseTimer,
+    restartTimer,
+    clock,
+    stringClock,
+    nextMode,
+    setModeManual
+  } from "./store";
+  import { longBreak, pomodoro, shortBreak } from "./modes";
   import About from "./About.svelte";
   let read = false;
   function readNotification() {
@@ -37,21 +50,27 @@
         <div class="columns is-vcentered has-text-centered ">
           <div class="column is-centered ">
             <div class="buttons has-addons is-centered">
-              <button class="button is-primary is-inverted is-outlined">
+              <button
+                class="button is-primary is-inverted is-outlined"
+                on:click={startTimer}>
                 <span class="icon is-small">
                   <i class="fas fa-play" />
                 </span>
                 <span>Play</span>
 
               </button>
-              <button class="button is-primary is-inverted is-outlined">
+              <button
+                class="button is-primary is-inverted is-outlined"
+                on:click={pauseTimer}>
                 <span class="icon is-small">
                   <i class="fas fa-pause" />
                 </span>
                 <span>Pause</span>
 
               </button>
-              <button class="button is-primary is-inverted is-outlined">
+              <button
+                class="button is-primary is-inverted is-outlined"
+                on:click={restartTimer}>
                 <span class="icon is-small">
                   <i class="fas fa-sync" />
                 </span>
@@ -64,22 +83,26 @@
           <div class="column is-one-quarter">
 
             <p class="title is-3 ">{$activeMode.name}</p>
-            <p class="subtitle is-5 ">25:00</p>
+            <p class="subtitle is-5 ">{$stringClock}</p>
             <progress class="progress is-primary" value="15" max="100">
               15%
             </progress>
-            <p class="heading">Next:</p>
+            <p class="heading">Next: {$nextMode.name}</p>
           </div>
           <div class="column">
             <div class="buttons has-addons is-centered">
-              <button class="button button is-primary is-inverted is-outlined">
+              <button
+                class="button button is-primary is-inverted is-outlined"
+                on:click={() => setModeManual(pomodoro)}>
                 <span class="icon is-small">
                   <i class="fas fa-clock" />
                 </span>
                 <span>Pomodoro</span>
 
               </button>
-              <button class="button is-primary is-inverted is-outlined">
+              <button
+                class="button is-primary is-inverted is-outlined"
+                on:click={() => setModeManual(shortBreak)}>
                 <span class="icon is-small">
                   <i class="fas fa-walking" />
                 </span>
@@ -88,7 +111,7 @@
               </button>
               <button
                 class="button is-primary is-inverted is-outlined"
-                on:click={setPage}>
+                on:click={() => setModeManual(longBreak)}>
                 <span class="icon is-small">
                   <i class="fas fa-coffee" />
                 </span>
