@@ -29,26 +29,29 @@
 
 <main class="has-background-dark">
   {#if $page === 'main'}
-    <section out:fade class="hero is-dark is-fullheight">
+    <section
+      out:fade={{ delay: 100 }}
+      in:fade={{ delay: 600 }}
+      class="hero is-dark is-fullheight">
       <div class="hero-body ">
         <div class="columns is-vcentered has-text-centered ">
           <div class="column is-centered ">
             <div class="buttons has-addons is-centered">
-              <button class="button is-outlined is-white">
+              <button class="button is-primary is-inverted is-outlined">
                 <span class="icon is-small">
                   <i class="fas fa-play" />
                 </span>
                 <span>Play</span>
 
               </button>
-              <button class="button is-outlined is-white">
+              <button class="button is-primary is-inverted is-outlined">
                 <span class="icon is-small">
                   <i class="fas fa-pause" />
                 </span>
                 <span>Pause</span>
 
               </button>
-              <button class="button is-outlined is-white">
+              <button class="button is-primary is-inverted is-outlined">
                 <span class="icon is-small">
                   <i class="fas fa-sync" />
                 </span>
@@ -69,21 +72,23 @@
           </div>
           <div class="column">
             <div class="buttons has-addons is-centered">
-              <button class="button is-outlined is-white">
+              <button class="button button is-primary is-inverted is-outlined">
                 <span class="icon is-small">
                   <i class="fas fa-clock" />
                 </span>
                 <span>Pomodoro</span>
 
               </button>
-              <button class="button is-outlined is-white">
+              <button class="button is-primary is-inverted is-outlined">
                 <span class="icon is-small">
                   <i class="fas fa-walking" />
                 </span>
                 <span>Short Break</span>
 
               </button>
-              <button class="button is-outlined is-white" on:click={setPage}>
+              <button
+                class="button is-primary is-inverted is-outlined"
+                on:click={setPage}>
                 <span class="icon is-small">
                   <i class="fas fa-coffee" />
                 </span>
@@ -97,7 +102,8 @@
       </div>
     </section>
   {:else}
-    <div transition:fade={{ delay: 800 }}>
+    <div in:fade={{ delay: 600 }} out:fade>
+
       <About />
     </div>
   {/if}

@@ -1,9 +1,14 @@
 
-import { writable, derived } from 'svelte/store';
-import { pomodoro, longBreak, shortBreak } from './modes'
+import { writable, derived, readable } from 'svelte/store';
+import { pomodoro, longBreak, shortBreak } from './modes';
+import { ipcRenderer } from 'electron';
+
+
 export const activeMode = writable(pomodoro);
 export let status = writable("stopped");
 export const page = writable("main");
+export const version = writable(process.env.npm_package_version)
+
 
 export const timer = derived(activeMode, $activeMode => {
 	if (status == "stopped") {
@@ -25,4 +30,6 @@ function setStatus(status) {
 	status = status;
 }
 
-
+ipcRenderer.on("changePage", (event, newPage) => {
+	page.set(newPage);
+})

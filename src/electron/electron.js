@@ -17,7 +17,7 @@ function createWindow() {
 	mainWindow = new BrowserWindow({
 		width: 500,
 		height: 550,
-		icon: path.join(__dirname, '..', '..', 'public', 'favicon.png'),
+		icon: path.join(__dirname, '..', '..', 'public', 'icon.png'),
 		webPreferences: {
 			nodeIntegration: true
 		}
@@ -38,6 +38,13 @@ function createWindow() {
 			event.preventDefault();
 			mainWindow.hide();
 		}
+	});
+
+	const shell = require('electron').shell;
+
+	mainWindow.webContents.on('will-navigate', (event, url) => {
+		event.preventDefault()
+		shell.openExternal(url)
 	});
 
 
@@ -81,14 +88,14 @@ app.on('ready', () => {
 	const contextMenu = Menu.buildFromTemplate([
 		{
 			label: 'Open', type: 'normal', click: () => {
-				const mainWindow = BrowserWindow.fromId(1)
 				mainWindow.show();
 			}
 		},
 		{
 
 			label: 'About', type: 'normal', click: () => {
-				mainWindow.webContents.openDevTools()
+				mainWindow.show();
+				mainWindow.webContents.send('changePage', 'about')
 			}
 		},
 		{
@@ -101,6 +108,7 @@ app.on('ready', () => {
 		{
 			label: 'Exit', type: 'normal', click: () => {
 				app.quit();
+				app.exit();
 			}
 		}
 	])
