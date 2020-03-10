@@ -1,45 +1,10 @@
 <script>
   import { version, page } from "./store.js";
-  function goBack() {
-    page.set("main");
-  }
+  import Nav from "./Nav.svelte";
 </script>
 
 <section class="hero is-dark is-fullheight">
-  <!-- Hero head: will stick at the top -->
-  <div class="hero-head">
-    <nav class="navbar">
-      <div class="container">
-        <div class="navbar-brand">
-
-          <div class="navbar-item">
-            <div class="container is-centered">
-
-              <button
-                class="button is-primary is-inverted is-outlined"
-                on:click={goBack}>
-                <span class="icon">
-                  <i class="fas fa-arrow-circle-left" />
-                </span>
-                <span>Return</span>
-              </button>
-            </div>
-          </div>
-          <div class="navbar-item">
-            <img src="icon.png" alt="Logo" />
-          </div>
-
-          <div class="navbar-item">
-            <h1 class="title">Pomodolfo</h1>
-          </div>
-          <div class="navbar-item">
-            <h2 class="subtitle is-6">Version {$version}</h2>
-          </div>
-        </div>
-      </div>
-    </nav>
-  </div>
-
+  <Nav />
   <div class="hero-body ">
     <div class="container">
       <section class="section">
@@ -87,6 +52,7 @@
             Check out my other tools
             <a href="https://baj.itch.io">@ baj.itch.io</a>
           </p>
+          <p>Copyright © 2020, Alexis Boni.</p>
 
         </div>
       </section>

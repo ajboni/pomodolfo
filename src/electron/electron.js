@@ -1,7 +1,9 @@
-const { app, BrowserWindow, Menu, Tray } = require('electron')
+const { app, BrowserWindow, Menu, Tray, nativeImage } = require('electron')
 const path = require('path')
 const { NODE_ENV } = process.env
 const dev = NODE_ENV === 'development'
+const { ipcMain } = require('electron')
+
 let mainWindow = null;
 
 
@@ -92,6 +94,12 @@ app.on('ready', () => {
 			}
 		},
 		{
+			label: 'Settings', type: 'normal', click: () => {
+				mainWindow.show();
+				mainWindow.webContents.send('changePage', 'settings')
+			}
+		},
+		{
 
 			label: 'About', type: 'normal', click: () => {
 				mainWindow.show();
@@ -115,5 +123,13 @@ app.on('ready', () => {
 
 	tray.setToolTip('This is my application.')
 	tray.setContextMenu(contextMenu)
+})
+
+ipcMain.on('showMainWindow', (event, arg) => {
+	mainWindow.show();
+	const iconPath = path.join(__dirname, 'icon-overlay.png');
+
+	// TODO: Research why its not working on cinnamon
+	// mainWindow.setOverlayIcon(nativeImage.createFromPath(iconPath), "Atention")
 })
 

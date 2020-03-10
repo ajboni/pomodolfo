@@ -12,18 +12,18 @@
     clock,
     stringClock,
     nextMode,
-    setModeManual
+    setModeManual,
+    version,
+    setPage,
+    percentDone
   } from "./store";
   import { longBreak, pomodoro, shortBreak } from "./modes";
   import About from "./About.svelte";
+  import Settings from "./Settings.svelte";
+  import Nav from "./Nav.svelte";
   let read = false;
   function readNotification() {
     read = !read;
-  }
-
-  function setPage() {
-    console.log("sadas");
-    page.set("about");
   }
 </script>
 
@@ -46,6 +46,10 @@
       out:fade={{ delay: 100 }}
       in:fade={{ delay: 600 }}
       class="hero is-dark is-fullheight">
+
+      <Nav
+        button={{ icon: 'fas fa-cog', caption: 'Settings', callback: () => setPage('settings') }} />
+
       <div class="hero-body ">
         <div class="columns is-vcentered has-text-centered ">
           <div class="column is-centered ">
@@ -84,9 +88,13 @@
 
             <p class="title is-3 ">{$activeMode.name}</p>
             <p class="subtitle is-5 ">{$stringClock}</p>
-            <progress class="progress is-primary" value="15" max="100">
-              15%
+            <progress
+              class="progress is-primary"
+              value={$percentDone}
+              max="100">
+              {percentDone}%
             </progress>
+            {$percentDone}%
             <p class="heading">Next: {$nextMode.name}</p>
           </div>
           <div class="column">
@@ -124,10 +132,15 @@
         </div>
       </div>
     </section>
-  {:else}
+  {:else if $page === 'about'}
+    <!-- else if content here -->
     <div in:fade={{ delay: 600 }} out:fade>
-
       <About />
+    </div>
+  {:else if $page === 'settings'}
+    <!-- else if content here -->
+    <div in:fade={{ delay: 600 }} out:fade>
+      <Settings />
     </div>
   {/if}
 

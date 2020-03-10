@@ -10,38 +10,47 @@ export let status = writable("stopped");
 export const page = writable("main");
 export const nextMode = writable(shortBreak);
 export const version = writable(process.env.npm_package_version)
-export let clock = writable(pomodoro.minutes * 60 * 1000)
+export let clock = writable(Math.round(pomodoro.minutes * 60 * 1000))
 let runs = 0;
+export let percentDone = writable(0)
 
 export let stringClock = derived(clock, $clock => {
-	console.log($clock)
 	let milisecs = $clock
 	if (milisecs < 0) { milisecs = 0 }
-	console.log(milisecs)
 	return moment.utc(milisecs).format('mm:ss');
 })
 
+
 let timer = new Timer()
-timer.on('tick', (ms) => clock.set(get(clock) - 1000))
+timer.on('tick', (ms) => {
+	console.log(get(clock))
+	clock.set(get(clock) - 1000)
+	let totalTime = Math.round(get(activeMode).minutes * 60 * 1000)
+	let percent = ((totalTime - get(clock)) * 100) / totalTime;
+	percent = Math.round(percent);
+	if (percent >= 100) {
+		percent = 100;
+	}
+	percentDone.set(percent);
+});
+
 timer.on('done', () => onTimerDone())
 timer.on('statusChanged', (status) => setStatus(status))
 
-// export const timer = derived(activeMode, $activeMode => {
-// 	if (status == "stopped") {
-// 		return $activeMode.minutes
-// 	}
-// });
-
 export function setModeManual(mode) {
 	runs = 0;
+
 	setMode(mode)
+
+
+
 }
 
 export function setMode(mode) {
 	getNextMode(mode);
 	timer.stop()
 	activeMode.set(mode);
-	clock.set(mode.minutes * 60 * 1000)
+	clock.set(Math.round(mode.minutes * 60 * 1000))
 }
 
 export function startTimer() {
@@ -60,9 +69,10 @@ export function pauseTimer() {
 }
 export function restartTimer() {
 	timer.stop()
-	clock.set(get(activeMode).minutes * 60 * 1000)
+	clock.set(Math.round(get(activeMode).minutes * 60 * 1000))
 	setMode(pomodoro)
 	runs = 0;
+
 
 }
 
@@ -71,6 +81,36 @@ function setStatus(newStatus) {
 }
 
 function onTimerDone() {
+	// remote show window
+	ipcRenderer.send("showMainWindow");
+
+	// Play sound
+	let bell = new Audio();
+	bell.src = 'bell.ogg';
+	bell.play()
+
+	let notificationTitle = ""
+	let notificationBody = ""
+
+	// Show Desktop notification.
+	switch (get(nextMode)) {
+		case pomodoro:
+			notificationTitle = 'Pomodoro Started';
+			notificationBody = 'Time to work!';
+			break;
+		case shortBreak:
+			notificationTitle = 'Short Break';
+			notificationBody = 'Stretch your body, walk a little. Drink water.';
+		case longBreak:
+			notificationTitle = 'Long Break';
+			notificationBody = 'Good work! Time to get some coffee.';
+		default:
+			break;
+	}
+
+	let myNotification = new Notification(notificationTitle, {
+		body: notificationBody
+	})
 
 	if (get(activeMode) === pomodoro) {
 		runs += 1;
@@ -95,5 +135,9 @@ function getNextMode(mode) {
 }
 
 ipcRenderer.on("changePage", (event, newPage) => {
-	page.set(newPage);
+	setPage(newPage)
 })
+
+export function setPage(newPage) {
+	page.set(newPage);
+}
