@@ -4,28 +4,46 @@ import { pomodoro, longBreak, shortBreak } from './modes';
 import { ipcRenderer } from 'electron';
 import moment from 'moment'
 import Timer from 'tiny-timer'
+import { settings } from './settings';
 
 export let activeMode = writable(pomodoro);
 export let status = writable("stopped");
 export const page = writable("main");
 export const nextMode = writable(shortBreak);
 export const version = writable(process.env.npm_package_version)
-export let clock = writable(Math.round(pomodoro.minutes * 60 * 1000))
+export let clock = writable(Math.round(pomodoro.minutes() * 60 * 1000))
+
+
 let runs = 0;
+let elapsed = writable(0);
+
+
+// export let clock = derived(settings, $settings => {
+// 	return (get(activeMode).minutes() * 60 * 1000) - get(elapsed);
+// })
+
 export let percentDone = writable(0)
 
 export let stringClock = derived(clock, $clock => {
 	let milisecs = $clock
 	if (milisecs < 0) { milisecs = 0 }
-	return moment.utc(milisecs).format('mm:ss');
+	let format = "mm:ss";
+	if (milisecs >= 60 * 60 * 1000) {
+		format = "HH:mm:ss"
+	}
+	if (milisecs >= 24 * 60 * 60 * 1000) {
+		milisecs = 24 * 60 * 60 * 1000 - 1000;
+	}
+	return moment.utc(milisecs).format(format);
 })
 
+console.log(pomodoro.minutes());
 
 let timer = new Timer()
 timer.on('tick', (ms) => {
 	console.log(get(clock))
 	clock.set(get(clock) - 1000)
-	let totalTime = Math.round(get(activeMode).minutes * 60 * 1000)
+	let totalTime = Math.round(get(activeMode).minutes() * 60 * 1000)
 	let percent = ((totalTime - get(clock)) * 100) / totalTime;
 	percent = Math.round(percent);
 	if (percent >= 100) {
@@ -50,7 +68,7 @@ export function setMode(mode) {
 	getNextMode(mode);
 	timer.stop()
 	activeMode.set(mode);
-	clock.set(Math.round(mode.minutes * 60 * 1000))
+	clock.set(Math.round(mode.minutes() * 60 * 1000))
 }
 
 export function startTimer() {
@@ -69,7 +87,7 @@ export function pauseTimer() {
 }
 export function restartTimer() {
 	timer.stop()
-	clock.set(Math.round(get(activeMode).minutes * 60 * 1000))
+	clock.set(Math.round(get(activeMode).minutes() * 60 * 1000))
 	setMode(pomodoro)
 	runs = 0;
 

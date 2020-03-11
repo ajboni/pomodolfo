@@ -17,8 +17,8 @@ if (dev) {
 function createWindow() {
 	// Create the browser window.
 	mainWindow = new BrowserWindow({
-		width: 500,
-		height: 550,
+		width: 550,
+		height: 600,
 		icon: path.join(__dirname, '..', '..', 'public', 'icon.png'),
 		webPreferences: {
 			nodeIntegration: true

@@ -25,6 +25,8 @@
   function readNotification() {
     read = !read;
   }
+
+  setPage("settings");
 </script>
 
 <style>
@@ -38,6 +40,11 @@
   .hero-body > .columns {
     width: 100%;
   }
+
+  .flex-justify-center {
+    justify-content: center !important;
+    display: flex !important;
+  }
 </style>
 
 <main class="has-background-dark">
@@ -50,7 +57,7 @@
       <Nav
         button={{ icon: 'fas fa-cog', caption: 'Settings', callback: () => setPage('settings') }} />
 
-      <div class="hero-body ">
+      <div class="hero-body flex-justify-center">
         <div class="columns is-vcentered has-text-centered ">
           <div class="column is-centered ">
             <div class="buttons has-addons is-centered">

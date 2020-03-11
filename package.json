@@ -33,6 +33,8 @@
 	"dependencies": {
 		"@fortawesome/fontawesome-free": "^5.12.1",
 		"bulma": "^0.8.0",
+		"bulma-checkradio": "^1.1.1",
+		"bulma-slider": "^2.0.0",
 		"cross-env": "^7.0.2",
 		"moment": "^2.24.0",
 		"sirv-cli": "^0.4.5",

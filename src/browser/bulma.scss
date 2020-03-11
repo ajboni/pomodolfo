@@ -24,5 +24,13 @@ $text: $color1;
 $text-strong: $color1;
 $white: $color1;
 
+$button-static-color: $color1;
+$button-static-background-color: $color3;
+$button-static-border-color: $color3;
+
+$input-background-color: $color5;
+
 // Then import bulma (Should be replaced for the used componentes only. Using all for dev purposes)
-@import "../../node_modules/bulma/bulma"
+@import "../../node_modules/bulma/bulma";
+@import "../../node_modules/bulma-checkradio/dist/css/bulma-checkradio.sass";
+@import "../../node_modules/bulma-slider/dist/css/bulma-slider.sass";

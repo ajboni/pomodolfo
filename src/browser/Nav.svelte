@@ -7,9 +7,16 @@
   };
 </script>
 
+<style>
+  .flex-justify-center {
+    justify-content: center !important;
+    display: flex !important;
+  }
+</style>
+
 <div class="hero-head">
   <nav class="navbar">
-    <div class="container">
+    <div class="container flex-justify-center">
       <div class="navbar-brand">
 
         <div class="navbar-item">
