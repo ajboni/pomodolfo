@@ -49,19 +49,19 @@
             <input
               bind:checked={item.value}
               class="is-checkradio has-background-color is-primary"
-              id={item.caption}
+              id={item.id}
               type="checkbox"
-              name={item.caption} />
+              name={item.id} />
 
-            <label for={item.caption}>{item.caption}</label>
+            <label for={item.id}>{item.caption}</label>
             <div class="has-text-weight-light is-size-7">{item.help}</div>
           </div>
         {:else if item.type === 'slider'}
           <div class="field flex-slider">
-            <label for={item.caption}>{item.caption}</label>
+            <label for={item.id}>{item.caption}</label>
             <input
-              id={item.caption}
-              disabled={!$settings.find(x => x.caption === item.depends_on).value}
+              id={item.id}
+              disabled={!$settings.find(x => x.id === item.depends_on).value}
               class="slider has-output is-fullwidth is-large is-circle
               is-primary"
               min="0"

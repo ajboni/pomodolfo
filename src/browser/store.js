@@ -41,7 +41,7 @@ console.log(pomodoro.minutes());
 
 let timer = new Timer()
 timer.on('tick', (ms) => {
-	console.log(get(clock))
+	// console.log(get(clock))
 	clock.set(get(clock) - 1000)
 	let totalTime = Math.round(get(activeMode).minutes() * 60 * 1000)
 	let percent = ((totalTime - get(clock)) * 100) / totalTime;
@@ -57,11 +57,7 @@ timer.on('statusChanged', (status) => setStatus(status))
 
 export function setModeManual(mode) {
 	runs = 0;
-
 	setMode(mode)
-
-
-
 }
 
 export function setMode(mode) {
@@ -90,8 +86,6 @@ export function restartTimer() {
 	clock.set(Math.round(get(activeMode).minutes() * 60 * 1000))
 	setMode(pomodoro)
 	runs = 0;
-
-
 }
 
 function setStatus(newStatus) {
@@ -100,41 +94,52 @@ function setStatus(newStatus) {
 
 function onTimerDone() {
 	// remote show window
-	ipcRenderer.send("showMainWindow");
-
-	// Play sound
-	let bell = new Audio();
-	bell.src = 'bell.ogg';
-	bell.play()
-
-	let notificationTitle = ""
-	let notificationBody = ""
-
-	// Show Desktop notification.
-	switch (get(nextMode)) {
-		case pomodoro:
-			notificationTitle = 'Pomodoro Started';
-			notificationBody = 'Time to work!';
-			break;
-		case shortBreak:
-			notificationTitle = 'Short Break';
-			notificationBody = 'Stretch your body, walk a little. Drink water.';
-		case longBreak:
-			notificationTitle = 'Long Break';
-			notificationBody = 'Good work! Time to get some coffee.';
-		default:
-			break;
+	if (getSetting("SHOW_APP_ON_NOTIFICATION").value) {
+		ipcRenderer.send("showMainWindow");
 	}
 
-	let myNotification = new Notification(notificationTitle, {
-		body: notificationBody
-	})
+	// Play sound
+	if (getSetting("AUDIO_NOTIFICATIONS").value) {
+		let bell = new Audio();
+		bell.src = 'bell.ogg';
+		bell.play()
+	}
+
+	// Show Desktop notification.
+	if (getSetting("DESKTOP_NOTIFICATIONS")) {
+		let notificationTitle = ""
+		let notificationBody = ""
+
+		switch (get(nextMode)) {
+			case pomodoro:
+				notificationTitle = 'Pomodoro Started';
+				notificationBody = 'Time to work!';
+				break;
+			case shortBreak:
+				notificationTitle = 'Short Break';
+				notificationBody = 'Stretchyour body, walk a little. Drink water.';
+				break;
+			case longBreak:
+				notificationTitle = 'Long Break';
+				notificationBody = 'Good work! Time to get some coffee.';
+				break;
+			default:
+				break;
+		}
+
+		let myNotification = new Notification(notificationTitle, {
+			body: notificationBody
+
+		})
+	}
 
 	if (get(activeMode) === pomodoro) {
 		runs += 1;
 	}
+	console.log(runs)
 	setMode(get(nextMode));
 	startTimer();
+
 }
 
 function getNextMode(mode) {
@@ -158,4 +163,9 @@ ipcRenderer.on("changePage", (event, newPage) => {
 
 export function setPage(newPage) {
 	page.set(newPage);
+}
+
+function getSetting(id) {
+	const obj = get(settings).find(x => x.id === id)
+	return obj
 }

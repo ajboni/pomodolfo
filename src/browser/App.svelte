@@ -21,10 +21,6 @@
   import About from "./About.svelte";
   import Settings from "./Settings.svelte";
   import Nav from "./Nav.svelte";
-  let read = false;
-  function readNotification() {
-    read = !read;
-  }
 
   setPage("settings");
 </script>
