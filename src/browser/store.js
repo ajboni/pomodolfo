@@ -102,6 +102,7 @@ function onTimerDone() {
 	if (getSetting("AUDIO_NOTIFICATIONS").value) {
 		let bell = new Audio();
 		bell.src = 'bell.ogg';
+		bell.volume = getSetting("VOLUME").value / 100
 		bell.play()
 	}
 
@@ -117,7 +118,7 @@ function onTimerDone() {
 				break;
 			case shortBreak:
 				notificationTitle = 'Short Break';
-				notificationBody = 'Stretchyour body, walk a little. Drink water.';
+				notificationBody = 'Stretch your body, walk a little. Drink water.';
 				break;
 			case longBreak:
 				notificationTitle = 'Long Break';
