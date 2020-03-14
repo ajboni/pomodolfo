@@ -21,8 +21,6 @@
   import About from "./About.svelte";
   import Settings from "./Settings.svelte";
   import Nav from "./Nav.svelte";
-
-  setPage("settings");
 </script>
 
 <style>
