@@ -37,12 +37,12 @@
 			],
 			"synopsis": "An extremely simple multiplatform pomodoro app.",
 			"category": "Utility",
-			"icon": "app/src/assets/icons/png",
+			"icon": "public/icon256.png",
 			"artifactName": "${productName}-${version}-${os}-${arch}.${ext}"
 		},
 		"mac": {
 			"category": "application",
-			"icon": "public/icon.icns",
+			"icon": "public/icon256.icns",
 			"target": [
 				"tar.gz"
 			]

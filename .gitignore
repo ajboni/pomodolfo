@@ -1,5 +1,8 @@
 /node_modules/
 /public/build/
 /dist/
+/build/**/*
+/temp/**/*
+/bin/
 
 .DS_Store
