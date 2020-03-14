@@ -5,7 +5,7 @@
 	"main": "src/electron/electron.js",
 	"author": "ajboni <mail@aboni.dev>",
 	"scripts": {
-		"build": "rollup -c && electron-builder",
+		"build": "rollup -c && electron-builder --win --linux --mac",
 		"dev": "cross-env WATCH=both rollup -c -w",
 		"dev-renderer": "cross-env WATCH=renderer rollup -c -w",
 		"dev-electron": "npm run start-nodemon",
@@ -14,7 +14,55 @@
 		"start-nodemon": "cross-env NODE_ENV=development nodemon --watch ./src/electron --exec 'electron ./src/electron/electron'"
 	},
 	"build": {
-		"appId": "com.example.app"
+		"appId": "com.aboni.pomodolfo",
+		"copyright": "Copyright © 2020 Alexis Boni",
+		"files": [
+			"!temp/**/*",
+			"!bin/**/*"
+		],
+		"electronDownload": {
+			"cache": "temp"
+		},
+		"linux": {
+			"target": [
+				{
+					"target": "AppImage",
+					"arch": [
+						"x64",
+						"ia32",
+						"armv7l",
+						"arm64"
+					]
+				}
+			],
+			"synopsis": "An extremely simple multiplatform pomodoro app.",
+			"category": "Utility",
+			"icon": "app/src/assets/icons/png",
+			"artifactName": "${productName}-${version}-${os}-${arch}.${ext}"
+		},
+		"mac": {
+			"category": "application",
+			"icon": "public/icon.icns",
+			"target": [
+				"tar.gz"
+			]
+		},
+		"nsis": {
+			"uninstallDisplayName": "${productName} v${version}",
+			"installerIcon": "public/icon.ico",
+			"uninstallerIcon": "public/icon.ico",
+			"artifactName": "${productName}-Installer-${version}-${os}-${arch}.${ext}"
+		},
+		"win": {
+			"target": [
+				"nsis"
+			],
+			"icon": "public/icon.ico",
+			"publisherName": "Alexis Boni"
+		},
+		"directories": {
+			"output": "bin/${os}"
+		}
 	},
 	"devDependencies": {
 		"@rollup/plugin-commonjs": "^11.0.2",

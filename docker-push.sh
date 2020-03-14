@@ -7,14 +7,15 @@
 # yarn version --patch
 
 # # Create builds
-yarn && yarn dist
-
+#yarn && yarn dist
+npm run build
 
 # Get API Key
 api=${BUTLER_API_KEY}
 
 # Get Version Number
-version=$( yarn -s ver )
+# version=$( yarn -s ver )
+version="$(npx -c 'echo "$npm_package_version"')"
 
 # Get Linux Path
 
