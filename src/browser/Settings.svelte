@@ -1,8 +1,9 @@
 <script>
   import Nav from "./Nav.svelte";
   import { slide, fade } from "svelte/transition";
+  import { pomodoro, longBreak, shortBreak } from "./modes";
   import { settings } from "./settings.js";
-  import { clock } from "./store.js";
+  import { clock, timer, setModeManual, activeMode } from "./store.js";
 
   function capMinutes(e, item, i) {
     let val = e.target.value;
@@ -14,6 +15,13 @@
     s[i].value = val;
     settings.set(s);
     //  clock.set(val);
+
+    console.log(timer.status);
+    // If we are not playing, reset the mode to apply changes.
+    // Otherwise changes will apply on next time we reach the mode.
+    if (timer.status !== "running") {
+      setModeManual($activeMode);
+    }
   }
 </script>
 
@@ -55,14 +63,16 @@
 
             <label for={item.id}>{item.caption}</label>
             <div class="has-text-weight-light is-size-7">{item.help}</div>
+
           </div>
         {:else if item.type === 'slider'}
           <div class="field flex-slider">
+
             <label for={item.id}>{item.caption}</label>
             <input
               id={item.id}
               disabled={!$settings.find(x => x.id === item.depends_on).value}
-              class="slider has-output is-fullwidth is-large is-circle
+              class="slider has-output is-fullwidth is-medium is-circle
               is-primary"
               min="0"
               max="99"
@@ -73,6 +83,7 @@
           </div>
         {:else if item.type === 'input'}
           <div class="field is-horizontal">
+
             <div class="field-label" />
             <div class="field-body">
               <div class="field is-expanded">

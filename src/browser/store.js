@@ -39,7 +39,7 @@ export let stringClock = derived(clock, $clock => {
 
 console.log(pomodoro.minutes());
 
-let timer = new Timer()
+export let timer = new Timer()
 timer.on('tick', (ms) => {
 	// console.log(get(clock))
 	clock.set(get(clock) - 1000)
@@ -51,6 +51,7 @@ timer.on('tick', (ms) => {
 	}
 	percentDone.set(percent);
 });
+
 
 timer.on('done', () => onTimerDone())
 timer.on('statusChanged', (status) => setStatus(status))
