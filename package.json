@@ -4,6 +4,8 @@
 	"version": "1.0.0",
 	"main": "src/electron/electron.js",
 	"author": "ajboni <mail@aboni.dev>",
+	"repository": "ajboni/pomodolfo",
+	"license": "GPL-3.0-or-later",
 	"scripts": {
 		"build": "rollup -c && electron-builder --win --linux --mac",
 		"dev": "cross-env WATCH=both rollup -c -w",
@@ -67,20 +69,20 @@
 	"devDependencies": {
 		"@rollup/plugin-commonjs": "^11.0.2",
 		"@rollup/plugin-node-resolve": "^7.1.1",
-		"electron": "^8.1.0",
-		"electron-builder": "^22.4.0",
+		"electron": "^8.2.1",
+		"electron-builder": "^22.4.1",
 		"electron-reload": "^1.5.0",
 		"nodemon": "^2.0.2",
-		"rollup": "^2.0.2",
-		"rollup-plugin-livereload": "^1.0.4",
+		"rollup": "^2.3.4",
+		"rollup-plugin-livereload": "^1.1.0",
 		"rollup-plugin-sass": "^1.2.2",
-		"rollup-plugin-svelte": "^5.1.1",
-		"rollup-plugin-terser": "^5.2.0",
-		"svelte": "^3.19.2"
+		"rollup-plugin-svelte": "^5.2.1",
+		"rollup-plugin-terser": "^5.3.0",
+		"svelte": "^3.20.1"
 	},
 	"dependencies": {
-		"@fortawesome/fontawesome-free": "^5.12.1",
-		"bulma": "^0.8.0",
+		"@fortawesome/fontawesome-free": "^5.13.0",
+		"bulma": "^0.8.1",
 		"bulma-checkradio": "^1.1.1",
 		"bulma-slider": "^2.0.0",
 		"cross-env": "^7.0.2",
