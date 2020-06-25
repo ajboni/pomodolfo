@@ -1,6 +1,6 @@
 ## ABOUT
 Pomodolfo is an extremely simple pomodoro timer. Just fire it up and start working!
-Wait... What is the pomodoro technique?
+[Wait... What is the pomodoro technique?](https://en.wikipedia.org/wiki/Pomodoro_Technique)
 
 ![](https://img.itch.zone/aW1hZ2UvNTg3MTEwLzMwOTcyODkucG5n/347x500/ecBF%2Ft.png)
 
